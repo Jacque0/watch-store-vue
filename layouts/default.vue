@@ -98,7 +98,7 @@
         </nav>
       </div>
     </header>
-    <cart :is-open="isCartOpen" @close="toggleCart" />
+    <cart :products="products" :is-open="isCartOpen" @close="toggleCart" />
     <!-- <h2 v-if="hasError" data-testid="error-message">{{ errorMessage }}</h2> -->
     <nuxt />
     <footer class="bg-gray-200">
@@ -116,7 +116,7 @@
 
 <script>
 import Cart from '@/components/Cart';
-import { cartState } from '~/state';
+
 export default {
   components: { Cart },
   // data() {
@@ -126,11 +126,11 @@ export default {
   // },
   computed: {
     isCartOpen() {
-      return cartState.open;
+      return this.$cart.getState().open;
     },
-    //     products() {
-    //       return this.$cart.getState().items
-    //     },
+    products() {
+      return this.$cart.getState().items;
+    },
     //     hasError() {
     //       return this.errorMessage !== ''
     //     },
@@ -147,7 +147,7 @@ export default {
     //       }
     //     },
     toggleCart() {
-      cartState.open = !cartState.open;
+      this.$cart.getState().open ? this.$cart.close() : this.$cart.open();
     },
   },
 };
