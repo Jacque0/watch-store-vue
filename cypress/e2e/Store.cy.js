@@ -20,9 +20,11 @@ context('Store', () => {
     cy.get('body').contains('Wrist Watch');
   });
 
-  context('Store > Shopping Cart', () => {
+  context.only('Store > Shopping Cart', () => {
+    const quantity = 10;
+
     beforeEach(() => {
-      server.createList('product', 10);
+      server.createList('product', quantity);
       cy.visit('http://localhost:3000/');
     });
 
@@ -50,11 +52,19 @@ context('Store', () => {
     });
 
     it('should add 3 products to the cart', () => {
-      gId('product-card').eq(1).find('button').click();
-      gId('product-card').eq(2).find('button').click({ force: true });
-      gId('product-card').eq(3).find('button').click({ force: true });
+      cy.addToCart({ indexes: [1, 2, 3] });
 
       gId('cart-item').should('have.length', 3);
+    });
+    it('should add 1 products to the cart', () => {
+      cy.addToCart({ index: 5 });
+
+      gId('cart-item').should('have.length', 1);
+    });
+    it('should add all products to the cart', () => {
+      cy.addToCart({ indexes: 'all' });
+
+      gId('cart-item').should('have.length', quantity);
     });
   });
 
