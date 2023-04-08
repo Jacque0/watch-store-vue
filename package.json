@@ -16,7 +16,9 @@
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "test:e2e": "start-test dev 3000 cypress:open",
-    "cypress:open": "cypress open"
+    "test:e2e:headless": "start-test dev 3000 cypress:run",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
